@@ -1,0 +1,130 @@
+import requests
+from bs4 import BeautifulSoup
+import matplotlib.pyplot as plt
+from JLinStatFunctions import statsToFloat
+from JLinStatFunctions import ms_to_s
+
+
+url = 'https://www.basketball-reference.com/players/l/linje01/gamelog/2012/'
+
+page = requests.get(url)
+soup = BeautifulSoup(page.content, "html.parser")
+tables = soup.findAll('table')
+
+table = tables[-1]
+
+# STATS
+dataList = []
+headerList = []
+
+game = []
+date = []
+age = []
+team = []
+at = []
+opponent = []
+outcome = []
+starting = []
+minutes = []
+fieldGoal = []
+fieldGoalAtt = []
+fieldGoalPercent = []
+threePoint = []
+threePointAtt = []
+threePointPercent = []
+freeThrow = []
+freeThrowAttempt = []
+freeThrowPercent = []
+oRebound = []
+dRebound = []
+totRebound = []
+assist = []
+steal = []
+block = []
+turnover = []
+fouls = []
+points = []
+score = []
+plusMinus = []
+
+
+
+for t in table.findAll('td'):
+    dataList.append(t.text)
+
+for t in table.findAll('th', scope = 'col'):
+    headerList.append(t.text)
+headerList.pop(0)
+
+i = 0
+while i < len(dataList):
+    game.append(dataList[i])
+    i += 1
+    date.append(dataList[i])
+    i += 1
+    age.append(dataList[i])
+    i += 1
+    team.append(dataList[i])
+    i += 1
+    at.append(dataList[i])
+    i += 1
+    opponent.append(dataList[i])
+    i += 1
+    outcome.append(dataList[i])
+    i += 1
+    starting.append(dataList[i])
+    i += 1
+    minutes.append(dataList[i])
+    i += 1
+    fieldGoal.append(dataList[i])
+    i += 1
+    fieldGoalAtt.append(dataList[i])
+    i += 1
+    fieldGoalPercent.append(dataList[i])
+    i += 1
+    threePoint.append(dataList[i])
+    i += 1
+    threePointAtt.append(dataList[i])
+    i += 1
+    threePointPercent.append(dataList[i])
+    i += 1
+    freeThrow.append(dataList[i])
+    i += 1
+    freeThrowAttempt.append(dataList[i])
+    i += 1
+    freeThrowPercent.append(dataList[i])
+    i += 1
+    oRebound.append(dataList[i])
+    i += 1
+    dRebound.append(dataList[i])
+    i += 1
+    totRebound.append(dataList[i])
+    i += 1
+    assist.append(dataList[i])
+    i += 1
+    steal.append(dataList[i])
+    i += 1
+    block.append(dataList[i])
+    i += 1
+    turnover.append(dataList[i])
+    i += 1
+    fouls.append(dataList[i])
+    i += 1
+    points.append(dataList[i])
+    i += 1
+    score.append(dataList[i])
+    i += 1
+    plusMinus.append(dataList[i])
+    i += 1
+
+statsToFloat(starting)
+statsToFloat(points)
+ms_to_s(minutes)
+
+
+
+plt.scatter(minutes,points)
+plt.xlabel('Minutes')
+plt.ylabel('Points')
+plt.title('Jeremy Lin 2011-2012 Season')
+plt.show()
